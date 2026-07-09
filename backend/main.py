@@ -21,6 +21,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
+@app.get("/healthz")
+def health_check():
+    return {"status": "healthy"}
+
+@app.get("/")
+def read_root():
+    return {"name": "AgenticFi API", "version": "1.0.0"}
+
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
