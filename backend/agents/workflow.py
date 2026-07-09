@@ -28,8 +28,13 @@ class AgentState(TypedDict):
 
 # Define LLM connection (or fallback)
 def get_llm_analysis(prompt: str, system_prompt: str) -> str:
-    api_key = os.getenv("OPENAI_API_KEY", "")
-    if not api_key or api_key == "mock-key-for-local-demo" or "your-openai" in api_key:
+    groq_key = os.getenv("GROQ_API_KEY", "")
+    openai_key = os.getenv("OPENAI_API_KEY", "")
+    
+    use_groq = groq_key and groq_key != "your-groq-api-key-here" and "mock" not in groq_key
+    use_openai = openai_key and openai_key != "mock-key-for-local-demo" and "your-openai" not in openai_key
+    
+    if not use_groq and not use_openai:
         # Fallback to simulated expert analyst response
         return "Simulated LLM Response based on prompt structure"
     
@@ -37,7 +42,20 @@ def get_llm_analysis(prompt: str, system_prompt: str) -> str:
         from langchain_openai import ChatOpenAI
         from langchain_core.messages import SystemMessage, HumanMessage
         
-        chat = ChatOpenAI(temperature=0.3, model="gpt-4o-mini", api_key=api_key)
+        if use_groq:
+            chat = ChatOpenAI(
+                temperature=0.3,
+                model="llama3-8b-8192",
+                api_key=groq_key,
+                base_url="https://api.groq.com/openai/v1"
+            )
+        else:
+            chat = ChatOpenAI(
+                temperature=0.3,
+                model="gpt-4o-mini",
+                api_key=openai_key
+            )
+            
         response = chat.invoke([
             SystemMessage(content=system_prompt),
             HumanMessage(content=prompt)
