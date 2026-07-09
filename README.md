@@ -5,6 +5,11 @@
 AgenticFi is an enterprise-grade AI Quantitative Research Platform powered by Agentic AI. It automates technical analysis, technical indicators computation, news sentiment parsing, historical backtesting, portfolio allocation, and risk management. It coordinates specialized agents to deliver structured research reports.
 
 ---
+## Demo Video
+
+
+https://github.com/user-attachments/assets/897afafc-bbc5-47b1-8849-e0de673944ed
+
 
 ## Technical Architecture
 
