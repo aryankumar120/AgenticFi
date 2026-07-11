@@ -10,6 +10,9 @@ import {
   Search, Play, AlertCircle, CheckCircle2, ChevronRight, BarChart3, HelpCircle, ArrowUpRight, ArrowDownRight
 } from "lucide-react";
 
+// --- API Configuration ---
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 // --- Types & Interfaces ---
 interface AgentLog {
   agent: string;
@@ -211,7 +214,7 @@ export default function QuantDashboard() {
     setActiveAgentIndex(0);
 
     try {
-      const response = await fetch("http://localhost:8000/api/research/run", {
+      const response = await fetch(`${API_BASE_URL}/api/research/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ticker, focus: "general" })
